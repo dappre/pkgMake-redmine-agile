@@ -1,0 +1,200 @@
+* Fri Feb 08 2019 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.8
+- Added new Version planner
+- Added saving for Agile charts
+- Fixed "Related to" filter 
+- Fixed "Parent task" filter
+- Fixed search sensitive bug
+- Fixed empty current version bug
+
+* Tue Sep 25 2018 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.7
+- Added missing filters: Issue, Description, Private, Watcher
+- Added preloading of colors for issues
+- Fixed tags render on a card
+- Fixed public board permission bug
+- Fixed agile board adaptability
+- Fixed fullscreen link displaying
+- Fixed filtering by Company custom field
+
+* Tue Mar 20 2018 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.6
+- Redmine 4 support
+- Quick seach on the board
+- Issue tags field on cards
+- Story Points available values setting
+- Fixed story point showing bug
+- Fixed makeup on issue edit form
+- Fixed light version dropable bug
+- Fixed custom fields bug with charts
+
+* Wed Sep 06 2017 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.5
+- Agile charts moved to Chartjs
+- Fixed current version filter value
+- Fixed issue sorting bug with active story points
+
+* Thu Jul 06 2017 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.4
+- Redmine 3.4 support 
+- Color attribute for users
+- Agile board <Current version> query filter
+- Added initional state for status and assignee history 
+- Chinese translation update
+- Fixed checklist items order
+
+* Mon Mar 20 2017 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.3
+- Added assignee, status and % done history urls
+- Created and Updated dates card fields
+- Fixed version from future bug
+- Fixed Agile board z-index bug
+- Fixed blocked query filter error
+- Fixed bug with zero divide for spent time color
+- Added trendline first point
+
+* Wed Nov 16 2016 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.2
+- Trendlines for lead time and velocity charts
+- Current active version filter
+- Chinese translation (Zuofeng Zhang)
+- Issue order for swimlanes
+- Fixed bug with session storage overload
+- Story points chart data calculation bug fixed
+- Firefox and IE bug with on board comments fixed
+
+* Mon Jun 20 2016 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.1
+- Agile board header height fixed for IE
+- Auto assign user on move card
+- Burndown/burnup charts fixes for story points and hours
+- Context menu for fullscreen board
+- Separate charts for SP and hours
+- Lock board on autorefresh
+
+* Tue Feb 09 2016 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.0
+- Story points estimation
+- Card assignment error messages
+- Cleanup WIP limits option styles
+- Highligh inline created cards
+- Inline comments board lock
+- Fixed version planning access right
+- Fixed unicode letters in locale files
+- Fixed performance issues with board rendering
+
+* Wed Jan 20 2016 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.13
+- Inline issue creation
+- Work-in-progress limits
+- Colored by project
+- Adding notes inline
+- Checklist on card view
+- Last comment card field
+- French locale by Olivier Houdas
+- Fixed bug with sorting cards in redmine < 3
+
+* Tue Nov 03 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.12
+- Estimated time sum in column header
+- Issue relations filter
+- Fixed bug with Mysql migration
+- Fixed bug with global board cards view
+- Fixed issue context menu bug
+
+* Tue Aug 18 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.11
+- Setting for closed cards view
+- Colorized by assignee
+
+* Thu Aug 06 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.10
+- Fixed bug with sticky headers after fullscreen auto update
+- Colored by spent time
+- Fixed bug with version planner unassigned issues
+- Added translation for module
+- Days in state card field
+
+* Wed May 20 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.9
+- Chinese translation (zhoutt)
+- Fixed print media styles for board
+- Parent task filter allowed commas
+- Version planner filters
+
+* Fri Mar 06 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.8
+- Redmine 3.0 support fixes
+- Autoupdate board on fullscreen view
+- N+1 agile color fixes
+- New filter Parent issue tracker
+- Total hours on version planning columns
+- Sub issues card field
+- Issue history for color changes
+
+* Tue Feb 10 2015 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.6
+- Sticky headers in fullscreen mode (Dariusz Kowalski)
+- Ajax error messages
+- Fixed bug in version planner with wrong column ID
+- Fixed 404 when enter hit in version planning form
+- Portuguese (Brazil) translation (Marcelo de A. Fernandes)
+
+* Tue Oct 28 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.5
+- Default boards for projects roles and users
+- Sub-projects issues in version planner
+
+* Thu Oct 16 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.4
+- Added filters for Assignee's role and Assignee's group
+- Shared versions support
+- Assignee history log
+
+* Sun Sep 28 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.3
+- German translation (Jan Schulz-Hofen)
+- Assignable users on agile board sidebar
+- Fixed bug with saving boards for non admin roles for Redmine 2.3
+- Fixed bug with authors swimlanes
+- Fixed bug in swimlanes with empty versions list
+
+* Fri Jun 27 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.2
+- Default desc sorting for priority swimlanes
+- Rank sorting for parent task swimlanes
+- Koren translation (김기원)
+- Fixed XSS Vulnerability (Felix Schäfer)
+- Fixed Issue status count starting with empty not updated (Felix Schäfer)
+- Fixed bug with "Is not" status filter
+
+* Mon May 05 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.1
+- Status Sub-Columns with colon delimiter
+- Fixes for SQL Server
+
+* Thu Apr 24 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.3.0
+- Swim lanes
+- Weekends for burnup and burndown charts
+- Burnup charts cleanup
+- New board card fields setting
+
+* Fri Apr 18 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.2.0
+- Colors
+- Version planning
+- Touch devices support
+- Fullscreen mode
+- Spanish translation by (Leandro Russo)
+- Created/Closed chart renamed to Issues burnup
+- Work burnup chart
+- First period effort for budrndown charst
+- Fixes in cumulative flow chart
+- Fixes with load_more duplications
+
+* Wed Apr 09 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.1.2
+- Compatibility fixes
+
+* Wed Apr 09 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.1.1
+- New scale divisions for charts
+- Fixes for work burndown with subtasks
+- Fixed Gantt and Caledar issues
+
+* Mon Apr 07 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.1.0
+- Save and manage agile boards
+- Select issue card fields
+- Permissions for agile boards
+- Default issue card columns setting
+- Issue card context menu
+- Project column
+- Issue done ratio and status flows
+- Charts (Work burndown chart, Issues burndown chart, Cumulative flow chart, Trackers cumulative flow chart, Velocity chart, Lead time chart, Average lead time chart, Created/Closed chart)
+- Fixed bug with load more filters
+
+* Tue Mar 18 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.0.1
+- Sorting issues inside status
+- Issues lazy loading
+
+* Fri Feb 28 2014 Digital-Me Infra Team <infra@digital-me.nl> - 1.0.0
+- Initial release
+- Draggable issues
+- Draggable assignees
+- Issue description and attached image preview
