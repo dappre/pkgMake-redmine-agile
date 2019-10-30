@@ -1,0 +1,98 @@
+%define rpm_name     #RPM_NAME#
+%define rpm_version  #RPM_VERSION#
+%define rpm_release  #RPM_RELEASE#
+%define rpm_packager #RPM_PACKAGER#
+
+%define pfx_name   redmine
+%define plg_name    %{pfx_name}_agile
+%define ruby_scl    rh-ruby22
+%define ruby_pfx    %{ruby_scl}-
+%define ruby_dir    /opt/rh/%{ruby_scl}/root
+%define app_root    %{_var}/www/%{pfx_name}
+%define app_logdir  %{_var}/log/%{pfx_name}
+
+Name:           %{rpm_name}
+Version:        %{rpm_version}
+Release:        %{rpm_release}%{?dist}
+Summary:        Redmine Agile Plugin for Agile Project Management
+Group:          Networking/WWW
+License:        GPLv2+
+URL:            https://www.redmine.org/plugins/redmine_agile
+Source0:        redmine_agile-1_4_7-light.zip
+Requires:       %{pfx_name}
+Requires:       %{name}-gems         = %{version}-%{release}
+
+BuildArch:      noarch
+
+%description
+Display Redmine Issues as tasks cards on an Agile board, allowing teams to prioritize, assign and track issues efficiently.
+Move cards by drag&drop and customize them. Use charts to see the progress of the project.
+You can adjust the plugin settings for any methodology, process or workflow that your organization uses.
+
+Features (light version only):
+
+* Agile boards
+* Burndown chart
+
+
+%prep
+%setup -q -n %{plg_name}
+
+# Cleanup
+find . -name ".gitignore" -exec rm {} \;
+find . -name ".gitkeep" -exec rm {} \;
+%{__rm} -f .drone.jsonnet
+%{__rm} -rf test
+
+
+%build
+# Nothing to build here
+
+
+%install
+install -d %{buildroot}%{app_root}/plugins/%{plg_name}
+%{__cp} -a * %{buildroot}%{app_root}/plugins/%{plg_name}
+%{__mkdir} -p %{buildroot}%{app_root}/public/plugin_assets/%{plg_name}
+
+
+%post
+# Use separeted log file for the following installation steps
+LOG_FILE="%{app_logdir}/install.log"
+
+# Enter the main directory
+pushd %{app_root} > /dev/null
+
+# No clue why it is needed to unfroze - main post script won't find any gem otherwise!
+echo "Bundle info:" >> "${LOG_FILE}"
+scl enable %{ruby_scl} -- bundle config --local frozen 0 >> "${LOG_FILE}" 2>&1
+scl enable %{ruby_scl} -- bundle >> "${LOG_FILE}" 2>&1
+scl enable %{ruby_scl} -- bundle config --local frozen 1 >> "${LOG_FILE}" 2>&1
+
+# Function to execute some rake tasks
+execRake() {
+  TASK="${1}"
+  echo "Start running execution of ${TASK} task..." >> "${LOG_FILE}"
+  RAILS_ENV=production scl enable %{ruby_scl} -- bundle exec rake ${TASK} >> "${LOG_FILE}" 2>&1
+  RET=$?
+  echo -n "End of ${TASK} task: " >> "${LOG_FILE}"
+  if [ ${RET} -eq 0 ]; then
+    echo 'ok' >> "${LOG_FILE}"
+  else
+    echo 'error' >> "${LOG_FILE}"
+  fi
+}
+
+# Install plugin (migrate DB and copy assets in public folder)
+NAME=%{plg_name} execRake redmine:plugins
+
+# Return to inital directory
+popd > /dev/null
+
+
+%files
+%defattr(-,root, root,-)
+%{app_root}/plugins/%{plg_name}/
+%attr(0775,root,nobody) %dir %{app_root}/public/plugin_assets/%{plg_name}/
+
+%changelog
+%include %{_specdir}/changelog
