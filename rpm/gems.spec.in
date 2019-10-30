@@ -1,0 +1,89 @@
+%define rpm_name     #RPM_NAME#
+%define rpm_version  #RPM_VERSION#
+%define rpm_release  #RPM_RELEASE#
+%define rpm_packager #RPM_PACKAGER#
+
+%define pfx_name   redmine
+%define plg_name    %{pfx_name}_agile
+%define ruby_scl    rh-ruby22
+%define ruby_pfx    %{ruby_scl}-
+%define ruby_dir    /opt/rh/%{ruby_scl}/root
+%define app_root    %{_var}/www/%{pfx_name}
+%define gem_vendir  vendor
+%define gem_bundir  %{gem_vendir}/bundle
+%define gem_insdir  %{gem_bundir}/ruby
+%define gem_bindir  %{gem_insdir}/bin
+%define gem_extdir  %{gem_insdir}/extensions/%{_arch}-linux
+
+Name:           %{rpm_name}-gems
+Version:        %{rpm_version}
+Release:        %{rpm_release}%{?dist}
+Summary:        Redmine Agile Plugin for Agile Project Management - Ruby gems
+Group:          Networking/WWW
+License:        GPLv2+
+URL:            https://www.redmine.org/plugins/redmine_agile
+Source0:        https://github.com/btlogy/redmine_agile/archive/#RPM_VERSION#.tar.gz
+# All required gems
+Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.42.gem
+Source1002:     https://rubygems.org/downloads/liquid-2.6.3.gem
+# Requires Redmine to be installed
+Requires:       %{pfx_name}-agile
+# Require bundler and deps to package all requires gems
+BuildRequires:  %{ruby_pfx}ruby-devel
+BuildRequires:  %{ruby_pfx}rubygems
+
+BuildArch:      noarch
+
+%description
+Redmine is a flexible project management web application. Written using
+Ruby on Rails framework, it is cross-platform and cross-database.
+
+This package contains the needed Ruby gems to run the webapp
+
+
+%prep
+%setup -q -n %{plg_name}-%{rpm_version}
+# Patch Gemfile to handle recent incompatibilities
+#%patch1 -p1
+# Add Gemfile.local to provide other DB gems
+#install -D -m644 %{SOURCE102} Gemfile.local
+# Add Gemfile.lock toand fix gem versions for this package
+#install -D -m644 %{SOURCE103} Gemfile.lock
+# Install pre-dowloaded gems in the cache
+%{__mkdir} -p vendor/cache
+%{__cp} -a %{_sourcedir}/*.gem vendor/cache
+
+
+%build
+# Build and install required gems
+scl enable %{ruby_scl} -- gem install --install-dir vendor/bundle/ruby --bindir vendor/bundle/ruby/bin --ignore-dependencies vendor/cache/*
+
+# Cleanup
+find vendor/bundle -name ".cvsignore" -exec rm {} \;
+find vendor/bundle -name ".gitignore" -exec rm {} \;
+%{__rm} -rf vendor/cache
+%{__rm} -rf %{gem_extdir}/*/{gem_make.out,gem.build_complete,mkmf.log}
+%{__rm} -rf %{gem_insdir}/gems/*/patches
+%{__rm} -rf %{gem_insdir}/gems/*/test
+%{__rm} -rf %{gem_insdir}/gems/*/examples
+%{__rm} -rf %{gem_insdir}/build_info
+%{__rm} -rf %{gem_insdir}/cache
+%{__rm} -rf %{gem_insdir}/doc
+
+
+%install
+# Install all gems as a local bundle
+%{__mkdir} -p %{buildroot}%{app_root}
+%{__cp} -a vendor %{buildroot}%{app_root}
+
+
+%postun
+
+
+%files
+%defattr(-,root, root,-)
+%{app_root}/%{gem_bundir}/
+
+
+%changelog
+%include %{_specdir}/changelog
