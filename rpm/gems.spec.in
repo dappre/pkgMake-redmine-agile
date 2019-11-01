@@ -22,7 +22,7 @@ Summary:        Redmine Agile Plugin for Agile Project Management - Ruby gems
 Group:          Networking/WWW
 License:        GPLv2+
 URL:            https://www.redmine.org/plugins/redmine_agile
-Source0:        redmine_agile-1_4_7-light.zip
+Source0:        redmine_agile-1_4_8-light.zip
 # All required gems
 Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.42.gem
 Source1002:     https://rubygems.org/downloads/liquid-2.6.3.gem
