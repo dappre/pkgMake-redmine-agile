@@ -1,0 +1,4 @@
+[submodule "rpmMake"]
+	path = rpmMake
+	url = https://github.com/digital-me/rpmMake.git
+	branch = stable
