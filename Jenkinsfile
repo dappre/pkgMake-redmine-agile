@@ -152,9 +152,6 @@ LOG_FILE=/dev/stdout
 			sh(
 """
 DIST=\"\${LAZY_LABEL%%-*}\${LAZY_LABEL##*-}-\$(arch)\"
-sudo yum -y install fuse-sshfs
-#mkdir \"/var/tmp/RPMS.${env.DEPLOY_REPO}\"
-#sshfs \"${env.DEPLOY_USER}@${env.DEPLOY_HOST}:${env.DEPLOY_DIR}/\${DIST}/${env.DEPLOY_REPO}\" '/var/tmp/RPMS.${env.DEPLOY_REPO}'
 printf \"[${env.DEPLOY_REPO}]\nname=${env.DEPLOY_REPO}\n\" > '/var/tmp/${env.DEPLOY_REPO}.repo'
 printf \"baseurl=http://mrepo.boxtel/mrepo/current/\${DIST}/RPMS.${env.DEPLOY_REPO}\nenabled=1\ngpgcheck=0\" >> '/var/tmp/${env.DEPLOY_REPO}.repo'
 sudo yum-config-manager --add-repo=\"/var/tmp/${env.DEPLOY_REPO}.repo\"
