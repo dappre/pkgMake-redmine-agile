@@ -11,6 +11,10 @@
 %define app_root    %{_var}/www/%{pfx_name}
 %define app_logdir  %{_var}/log/%{pfx_name}
 
+# Parameterize user and group names
+%define rdm_username  nobody
+%define rdm_groupname nobody
+
 # To transform the version string from RedmineUp in a semantic version 
 %define _uver() %(echo %1 | tr '.' '_')
 
@@ -95,7 +99,7 @@ popd > /dev/null
 %files
 %defattr(-,root, root,-)
 %{app_root}/plugins/%{plg_name}/
-%attr(0775,root,nobody) %dir %{app_root}/public/plugin_assets/%{plg_name}/
+%attr(0775,root,%{rdm_groupname}) %dir %{app_root}/public/plugin_assets/%{plg_name}/
 
 %changelog
 %include %{_specdir}/changelog
