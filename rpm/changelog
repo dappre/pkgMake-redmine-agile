@@ -1,3 +1,13 @@
+* Tue Oct 22 2019 Digital-Me Infra Team <infra@digital-me.nl> - 1.5.0- Agile sprints
+- New Backlog tab
+- Board types: Scrum and Kanban
+- New lead time chart
+- Totals for board and swimlanes 
+- Added board units
+- Added board default chart 
+- Fixed chart caclulation bug
+- Fixed custom field js error
+
 * Fri Jun 14 2019 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.12
 - Fixed light version Redmine 4.0.3+ bug
 - Fixed swilanes sorting
