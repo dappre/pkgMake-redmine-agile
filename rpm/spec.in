@@ -11,6 +11,9 @@
 %define app_root    %{_var}/www/%{pfx_name}
 %define app_logdir  %{_var}/log/%{pfx_name}
 
+# To transform the version string from RedmineUp in a semantic version 
+%define _uver() %(echo %1 | tr '.' '_')
+
 Name:           %{rpm_name}
 Version:        %{rpm_version}
 Release:        %{rpm_release}%{?dist}
@@ -18,7 +21,7 @@ Summary:        Redmine Agile Plugin for Agile Project Management
 Group:          Networking/WWW
 License:        GPLv2+
 URL:            https://www.redmine.org/plugins/redmine_agile
-Source0:        redmine_agile-1_4_8-light.zip
+Source0:        redmine_agile-%{_uver %{rpm_version}}-light.zip
 Requires:       %{pfx_name}
 Requires:       %{name}-gems         = %{version}-%{release}
 
