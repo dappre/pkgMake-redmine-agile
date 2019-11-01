@@ -92,6 +92,9 @@ execRake() {
 # Install plugin (migrate DB and copy assets in public folder)
 NAME=%{plg_name} execRake redmine:plugins
 
+# Restart Redmine
+touch tmp/restart.txt
+
 # Return to inital directory
 popd > /dev/null
 
