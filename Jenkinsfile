@@ -75,7 +75,7 @@ def releaseBranch = 'stable'
 // Initialize configuration
 lazyConfig(
 	name: 'pkgmake',
-	inLabels: [ /*'centos-6',*/ 'centos-7', /*'ubuntu-16',*/ ],
+	inLabels: [ /*'centos6',*/ 'centos7', /*'ubuntu16',*/ ],
 	env: 		[
 		VERSION: false,
 		RELEASE: true,
