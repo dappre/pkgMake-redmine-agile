@@ -5,7 +5,7 @@
 
 %define pfx_name   redmine
 %define plg_name    %{pfx_name}_agile
-%define ruby_scl    rh-ruby22
+%define ruby_scl    rh-ruby24
 %define ruby_pfx    %{ruby_scl}-
 %define ruby_dir    /opt/rh/%{ruby_scl}/root
 %define app_root    %{_var}/www/%{pfx_name}
@@ -60,6 +60,7 @@ find . -name ".gitkeep" -exec rm {} \;
 install -d %{buildroot}%{app_root}/plugins/%{plg_name}
 %{__cp} -a * %{buildroot}%{app_root}/plugins/%{plg_name}
 %{__mkdir} -p %{buildroot}%{app_root}/public/plugin_assets/%{plg_name}
+%{__mkdir} -p %{buildroot}%{app_root}/public/plugin_assets/redmine_crm
 
 
 %post
@@ -102,7 +103,9 @@ popd > /dev/null
 %files
 %defattr(-,root, root,-)
 %{app_root}/plugins/%{plg_name}/
-%attr(0775,root,%{rdm_groupname}) %dir %{app_root}/public/plugin_assets/%{plg_name}/
+%attr(0775,root,%{rdm_groupname}) %{app_root}/public/plugin_assets/%{plg_name}/
+%attr(0775,root,%{rdm_groupname}) %{app_root}/public/plugin_assets/redmine_crm/
+
 
 %changelog
 %include %{_specdir}/changelog
