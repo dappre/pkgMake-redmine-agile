@@ -210,7 +210,7 @@ lazyStage {
 	input = [
 		message: 'Version string',
 		parameters: [string(
-			defaultValue: '',
+			defaultValue: "${env.VERSION}",
 			description: "Version to be release: '*build*', 'micro', 'minor', 'major' or a specific string (i.e.: 1.2.3-4)",
 			name: 'VERSION'
 		)]
