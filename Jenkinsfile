@@ -141,21 +141,22 @@ lazyStage {
 			}
 			sh(
 """
+DIST=\"\${LAZY_LABEL}-\$(arch)\"
 make \
 VERSION=${version} \
 RELEASE=${release} \
 TARGET_DIR=\$(pwd)/${env.TARGET_DIR} \
-DISTS_DIR=\$(pwd)/${env.TARGET_DIR}/dists/${env.LAZY_LABEL} \
+DISTS_DIR=\$(pwd)/${env.TARGET_DIR}/dists/\${DIST} \
 LOG_FILE=/dev/stdout
 """
 			)
 			sh(
 """
-DIST=\"\${LAZY_LABEL%%-*}\${LAZY_LABEL##*-}-\$(arch)\"
+DIST=\"\${LAZY_LABEL}-\$(arch)\"
 printf \"[${env.DEPLOY_REPO}]\nname=${env.DEPLOY_REPO}\n\" > '/var/tmp/${env.DEPLOY_REPO}.repo'
 printf \"baseurl=http://mrepo.boxtel/mrepo/current/\${DIST}/RPMS.${env.DEPLOY_REPO}\nenabled=1\ngpgcheck=0\" >> '/var/tmp/${env.DEPLOY_REPO}.repo'
 sudo yum-config-manager --add-repo=\"/var/tmp/${env.DEPLOY_REPO}.repo\"
-cd ${env.TARGET_DIR}/dists/${env.LAZY_LABEL}
+cd ${env.TARGET_DIR}/dists/\${DIST}
 sudo yum -y install redmine redmine-sqlite\
  redmine-agile-${version}-${release}.*.rpm\
  redmine-agile-gems-${version}-${release}.*.rpm
@@ -184,7 +185,7 @@ lazyStage {
 			currentBuild.displayName = "#${env.BUILD_NUMBER} ${version}-${release}"
 			sh(
 """
-DIST=\"\${LAZY_LABEL%%-*}\${LAZY_LABEL##*-}-\$(arch)\"
+DIST=\"\${LAZY_LABEL}-\$(arch)\"
 make \
 VERSION=${version} \
 RELEASE=${release} \
@@ -209,7 +210,7 @@ lazyStage {
 	input = [
 		message: 'Version string',
 		parameters: [string(
-			defaultValue: '',
+			defaultValue: "${env.VERSION}",
 			description: "Version to be release: '*build*', 'micro', 'minor', 'major' or a specific string (i.e.: 1.2.3-4)",
 			name: 'VERSION'
 		)]
@@ -220,7 +221,7 @@ lazyStage {
 				// Define next version based on optional input
 				def currentVersion = gitLastTag()
 				def nextVersion = null
-				if (env.lazyInput) {
+				if (env.lazyInput && env.lazyInput != currentVersion) {
 					if (env.lazyInput ==~ /[a-z]+/) {
 						nextVersion = bumpVersion(env.lazyInput, currentVersion)
 					} else {
