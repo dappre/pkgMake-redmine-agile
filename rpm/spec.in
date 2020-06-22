@@ -5,11 +5,18 @@
 
 %define pfx_name   redmine
 %define plg_name    %{pfx_name}_agile
-%define ruby_scl    rh-ruby22
+%define ruby_scl    rh-ruby24
 %define ruby_pfx    %{ruby_scl}-
 %define ruby_dir    /opt/rh/%{ruby_scl}/root
 %define app_root    %{_var}/www/%{pfx_name}
 %define app_logdir  %{_var}/log/%{pfx_name}
+
+# Parameterize user and group names
+%define rdm_username  nobody
+%define rdm_groupname nobody
+
+# To transform the version string from RedmineUp in a semantic version 
+%define _uver() %(echo %1 | tr '.' '_')
 
 Name:           %{rpm_name}
 Version:        %{rpm_version}
@@ -18,7 +25,7 @@ Summary:        Redmine Agile Plugin for Agile Project Management
 Group:          Networking/WWW
 License:        GPLv2+
 URL:            https://www.redmine.org/plugins/redmine_agile
-Source0:        redmine_agile-1_4_8-light.zip
+Source0:        redmine_agile-%{_uver %{rpm_version}}-light.zip
 Requires:       %{pfx_name}
 Requires:       %{name}-gems         = %{version}-%{release}
 
@@ -53,6 +60,7 @@ find . -name ".gitkeep" -exec rm {} \;
 install -d %{buildroot}%{app_root}/plugins/%{plg_name}
 %{__cp} -a * %{buildroot}%{app_root}/plugins/%{plg_name}
 %{__mkdir} -p %{buildroot}%{app_root}/public/plugin_assets/%{plg_name}
+%{__mkdir} -p %{buildroot}%{app_root}/public/plugin_assets/redmine_crm
 
 
 %post
@@ -85,6 +93,9 @@ execRake() {
 # Install plugin (migrate DB and copy assets in public folder)
 NAME=%{plg_name} execRake redmine:plugins
 
+# Restart Redmine
+touch tmp/restart.txt
+
 # Return to inital directory
 popd > /dev/null
 
@@ -92,7 +103,9 @@ popd > /dev/null
 %files
 %defattr(-,root, root,-)
 %{app_root}/plugins/%{plg_name}/
-%attr(0775,root,nobody) %dir %{app_root}/public/plugin_assets/%{plg_name}/
+%attr(0775,root,%{rdm_groupname}) %{app_root}/public/plugin_assets/%{plg_name}/
+%attr(0775,root,%{rdm_groupname}) %{app_root}/public/plugin_assets/redmine_crm/
+
 
 %changelog
 %include %{_specdir}/changelog

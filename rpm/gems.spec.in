@@ -5,15 +5,18 @@
 
 %define pfx_name   redmine
 %define plg_name    %{pfx_name}_agile
-%define ruby_scl    rh-ruby22
+%define ruby_scl    rh-ruby24
 %define ruby_pfx    %{ruby_scl}-
 %define ruby_dir    /opt/rh/%{ruby_scl}/root
 %define app_root    %{_var}/www/%{pfx_name}
 %define gem_vendir  vendor
 %define gem_bundir  %{gem_vendir}/bundle
-%define gem_insdir  %{gem_bundir}/ruby
+%define gem_insdir  %{gem_bundir}/ruby/2.4.0
 %define gem_bindir  %{gem_insdir}/bin
-%define gem_extdir  %{gem_insdir}/extensions/%{_arch}-linux
+%define gem_extdir  %{gem_insdir}/extensions/%{_arch}-linux/2.4.0
+
+# To transform the version string from RedmineUp in a semantic version 
+%define _uver() %(echo %1 | tr '.' '_')
 
 Name:           %{rpm_name}-gems
 Version:        %{rpm_version}
@@ -22,9 +25,9 @@ Summary:        Redmine Agile Plugin for Agile Project Management - Ruby gems
 Group:          Networking/WWW
 License:        GPLv2+
 URL:            https://www.redmine.org/plugins/redmine_agile
-Source0:        redmine_agile-1_4_8-light.zip
+Source0:        redmine_agile-%{_uver %{rpm_version}}-light.zip
 # All required gems
-Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.42.gem
+Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.47.gem
 Source1002:     https://rubygems.org/downloads/liquid-2.6.3.gem
 # Requires Redmine to be installed
 Requires:       %{pfx_name}-agile
@@ -50,18 +53,18 @@ This package contains the needed Ruby gems to run the webapp
 # Add Gemfile.lock toand fix gem versions for this package
 #install -D -m644 %{SOURCE103} Gemfile.lock
 # Install pre-dowloaded gems in the cache
-%{__mkdir} -p vendor/cache
-%{__cp} -a %{_sourcedir}/*.gem vendor/cache
+%{__mkdir} -p %{gem_vendir}/cache
+%{__cp} -a %{_sourcedir}/*.gem %{gem_vendir}/cache
 
 
 %build
 # Build and install required gems
-scl enable %{ruby_scl} -- gem install --install-dir vendor/bundle/ruby --bindir vendor/bundle/ruby/bin --ignore-dependencies vendor/cache/*
+scl enable %{ruby_scl} -- gem install --install-dir %{gem_insdir} --bindir %{gem_bindir} --ignore-dependencies %{gem_vendir}/cache/*
 
 # Cleanup
-find vendor/bundle -name ".cvsignore" -exec rm {} \;
-find vendor/bundle -name ".gitignore" -exec rm {} \;
-%{__rm} -rf vendor/cache
+find %{gem_bundir} -name ".cvsignore" -exec rm {} \;
+find %{gem_bundir} -name ".gitignore" -exec rm {} \;
+%{__rm} -rf %{gem_vendir}/cache
 %{__rm} -rf %{gem_extdir}/*/{gem_make.out,gem.build_complete,mkmf.log}
 %{__rm} -rf %{gem_insdir}/gems/*/patches
 %{__rm} -rf %{gem_insdir}/gems/*/test
