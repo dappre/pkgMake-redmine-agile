@@ -141,22 +141,22 @@ lazyStage {
 			}
 			sh(
 """
-DIST=\"\${LAZY_LABEL}-\$(arch)\"
+DIST="\${LAZY_LABEL}-\$(arch)"
 make \
 VERSION=${version} \
 RELEASE=${release} \
-TARGET_DIR=\$(pwd)/${env.TARGET_DIR} \
-DISTS_DIR=\$(pwd)/${env.TARGET_DIR}/dists/\${DIST} \
+TARGET_DIR="\$(pwd)/\${TARGET_DIR}" \
+DISTS_DIR="\$(pwd)/\${TARGET_DIR}/dists/\${DIST}" \
 LOG_FILE=/dev/stdout
 """
 			)
 			sh(
 """
-DIST=\"\${LAZY_LABEL}-\$(arch)\"
+DIST="\${LAZY_LABEL}-\$(arch)"
 printf \"[${env.DEPLOY_REPO}]\nname=${env.DEPLOY_REPO}\n\" > '/var/tmp/${env.DEPLOY_REPO}.repo'
 printf \"baseurl=http://mrepo.boxtel/mrepo/current/\${DIST}/RPMS.${env.DEPLOY_REPO}\nenabled=1\ngpgcheck=0\" >> '/var/tmp/${env.DEPLOY_REPO}.repo'
 sudo yum-config-manager --add-repo=\"/var/tmp/${env.DEPLOY_REPO}.repo\"
-cd ${env.TARGET_DIR}/dists/\${DIST}
+cd "\${TARGET_DIR}/dists/\${DIST}"
 sudo yum -y install redmine redmine-sqlite\
  redmine-agile-${version}-${release}.*.rpm\
  redmine-agile-gems-${version}-${release}.*.rpm
@@ -185,12 +185,12 @@ lazyStage {
 			currentBuild.displayName = "#${env.BUILD_NUMBER} ${version}-${release}"
 			sh(
 """
-DIST=\"\${LAZY_LABEL}-\$(arch)\"
+DIST="\${LAZY_LABEL}-\$(arch)"
 make \
 VERSION=${version} \
 RELEASE=${release} \
-TARGET_DIR=\$(pwd)/${env.TARGET_DIR} \
-DISTS_DIR=\$(pwd)/${env.TARGET_DIR}/dists/\${DIST} \
+TARGET_DIR="\$(pwd)/\${TARGET_DIR}" \
+DISTS_DIR="\$(pwd)/\${TARGET_DIR}/dists/\${DIST}" \
 LOG_FILE=/dev/stdout
 """
 			)
