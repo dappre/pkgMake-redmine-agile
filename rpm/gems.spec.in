@@ -27,7 +27,7 @@ License:        GPLv2+
 URL:            https://www.redmine.org/plugins/redmine_agile
 Source0:        redmine_agile-%{_uver %{rpm_version}}-light.zip
 # All required gems
-Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.47.gem
+Source1001:     https://rubygems.org/downloads/redmine_crm-0.0.53.gem
 Source1002:     https://rubygems.org/downloads/liquid-2.6.3.gem
 # Requires Redmine to be installed
 Requires:       %{pfx_name}-agile
