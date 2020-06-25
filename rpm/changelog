@@ -1,3 +1,6 @@
+* Fri Jun 19 2019 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.12-2
+- Update redmine_crm gem to 0.0.53
+
 * Fri Jun 19 2019 Digital-Me Infra Team <infra@digital-me.nl> - 1.4.12-1
 - Switch to Ruby 2.4 since 2.2 has been remove from sclo repo
 
